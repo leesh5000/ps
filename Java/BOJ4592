@@ -1,0 +1,25 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        while (true) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            int N = Integer.parseInt(st.nextToken());
+            if (N==0) break;
+            int current = Integer.parseInt(st.nextToken());
+            sb.append(current).append(" ");
+            for (int i=1; i<N; i++) {
+                int next = Integer.parseInt(st.nextToken());
+                if (current!=next) {
+                    sb.append(next).append(" ");
+                }
+                current = next;
+            }
+            sb.append("$").append("\n");
+        }
+        System.out.println(sb.toString());
+    }
+}

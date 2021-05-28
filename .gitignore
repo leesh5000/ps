@@ -13,3 +13,4 @@ out
 PS.iml
 src
 src/*
+.DS_Store

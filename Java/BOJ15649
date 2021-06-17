@@ -1,0 +1,19 @@
+import sys
+sys.setrecursionlimit(10**3)
+
+def DFS(L):
+    if L == M:
+        print(" ".join(map(str, res)))
+    else:
+        for i in range(1, N+1):
+            if ck[i] == 0:
+                res[L] = i
+                ck[i] = 1
+                DFS(L+1)
+                ck[i] = 0
+
+if __name__ == "__main__":
+    N, M = map(int, input().split())
+    ck = [0] * (N+1)
+    res = [0] * M
+    DFS(0)

@@ -1,0 +1,51 @@
+import sys
+input = sys.stdin.readline
+
+
+def check(R, C):
+    global board, my_board
+    dr = [-1, 0, 1, 0]
+    dc = [0, 1, 0, -1]
+    size = 1
+    go = True
+    while go:
+        for i in range(4):
+            nr = R+dr[i]*size
+            nc = C+dc[i]*size
+            if 0 <= nr < n and 0 <= nc < m and board[nr][nc] == '*' and go == True:
+                go = True
+            else:
+                go = False
+        if go:
+            my_board[R][C] = '*'
+            for i in range(4):
+                nr = R+dr[i]*size
+                nc = C+dc[i]*size
+                my_board[nr][nc] = '*'
+            size += 1
+        else:
+            break
+    return size-1
+
+
+n, m = map(int, input().split())
+board = [list(map(str, input().strip())) for _ in range(n)]
+my_board = [['.'] * (m) for _ in range(n)]
+ans = []
+
+for i in range(n):
+    for j in range(m):
+        if board[i][j] == '*':
+            size = check(i, j)
+            if size:
+                ans.append((i+1, j+1, size))
+
+for i in range(n):
+    for j in range(m):
+        if board[i][j] != my_board[i][j]:
+            print(-1)
+            sys.exit(0)
+
+print(len(ans))
+for x in ans:
+    print(*x)

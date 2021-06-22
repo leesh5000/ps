@@ -1,0 +1,59 @@
+import sys
+sys.setrecursionlimit(10000)
+
+
+def DFS(r, c):
+    global ck
+    if ck[r][c]:
+        return
+    else:
+        ck[r][c] = 1
+        for i in range(4):
+            if 0 <= r+dr[i] < n and 0 <= c+dc[i] < m and board[r+dr[i]][c+dc[i]] == 0:
+                if ck[r+dr[i]][c+dc[i]] == 0:
+                    DFS(r+dr[i], c+dc[i])
+
+
+def Combination(L, S):
+    global ans
+    if L == 3:
+        for x in res:
+            board[room[x][0]][room[x][1]] = 1
+        for i in range(n):
+            for j in range(m):
+                if board[i][j] == 2:
+                    DFS(i, j)
+        temp = 0
+        for i in range(n):
+            for j in range(m):
+                if board[i][j] != 1 and ck[i][j] == 0:
+                    temp += 1
+        ans = max(ans, temp)
+        for i in range(n):
+            for j in range(m):
+                ck[i][j] = 0
+        for x in res:
+            board[room[x][0]][room[x][1]] = 0
+    else:
+        for i in range(S, len(room)):
+            res[L] = i
+            Combination(L+1, i+1)
+
+
+if __name__ == "__main__":
+    # for _ in range(int(sys.stdin.readline())):
+    n, m = map(int, sys.stdin.readline().split())
+    board = [list(map(int, sys.stdin.readline().split()))
+             for _ in range(n)]
+    ck = [[0] * m for _ in range(n)]
+    dr = [-1, 0, 1, 0]
+    dc = [0, 1, 0, -1]
+    room = []
+    res = [0] * 3
+    ans = -2147000000
+    for i in range(n):
+        for j in range(m):
+            if board[i][j] == 0:
+                room.append((i, j))
+    Combination(0, 0)
+    print(ans)

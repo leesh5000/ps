@@ -1,0 +1,32 @@
+import sys
+import copy
+def DFS(r, c, char, start, cnt):
+    global temp, cycle
+    if cycle:
+        return
+    else:
+        for i in range(4):
+            nr, nc = r+dr[i], c+dc[i]
+            if 0 <= nr < n and 0 <= nc < m and board[nr][nc] == char:
+                if temp[nr][nc] == 0:
+                    temp[nr][nc] = 1
+                    DFS(nr, nc, char, start, cnt+1)
+                    temp[nr][nc] = 0
+                else:
+                    if nr == start[0] and nc == start[1] and cnt >= 3:
+                        cycle = True
+if __name__ == "__main__":
+    n, m = map(int, input().split())
+    board = [list(map(str, input())) for _ in range(n)]
+    ck = [[0] * m for _ in range(n)]
+    dr = [-1, 0, 1, 0]
+    dc = [0, 1, 0, -1]
+    cycle = False
+    for i in range(n):
+        if cycle:
+            break
+        for j in range(m):
+            temp = copy.deepcopy(ck)
+            temp[i][j] = 1
+            DFS(i, j, board[i][j], (i, j), 1)
+    print("Yes" if cycle == True else "No")

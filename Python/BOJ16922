@@ -1,0 +1,16 @@
+import sys
+input = sys.stdin.readline
+def DFS(L, S, sum):
+    global res
+    if L == n:
+        res.append(sum)
+    else:
+        for i in range(S, len(arr)):
+            DFS(L+1, i, sum+arr[i])
+if __name__ == "__main__":
+    n = int(input())
+    arr = [1, 5, 10, 50]
+    res = []
+    DFS(0, 0, 0)
+    res = set(res)
+    print(len(res))

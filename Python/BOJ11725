@@ -1,0 +1,18 @@
+import sys
+from collections import deque
+n = int(sys.stdin.readline())
+root = [0] * (n+1)
+graph = [[] for _ in range(n+1)]
+dq = deque()
+dq.append(1)
+for _ in range(n-1):
+    a, b = map(int, sys.stdin.readline().split())
+    graph[a].append(b)
+    graph[b].append(a)
+while dq:
+    now = dq.pop()
+    for child in graph[now]:
+        if root[child] == 0:
+            root[child] = now
+            dq.append(child)
+print("\n".join(map(str, root[2:])))

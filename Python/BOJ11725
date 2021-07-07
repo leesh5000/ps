@@ -16,3 +16,5 @@ while dq:
             root[child] = now
             dq.append(child)
 print("\n".join(map(str, root[2:])))
+
+

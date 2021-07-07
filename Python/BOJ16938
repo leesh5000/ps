@@ -1,0 +1,24 @@
+import sys
+input = sys.stdin.readline
+
+
+def DFS(Lv, cur_sum, min_prob, max_prob, cnt_prob):
+    global cnt
+    if Lv == N:
+        if cur_sum >= L and cur_sum <= R and (max_prob - min_prob) >= X and cnt_prob >= 2:
+            cnt += 1
+    else:
+        ck[Lv] = 1
+        DFS(Lv+1, cur_sum+prob[Lv], min(min_prob,
+                                        prob[Lv]), max(max_prob, prob[Lv]), cnt_prob+1)
+        ck[Lv] = 0
+        DFS(Lv+1, cur_sum, min_prob, max_prob, cnt_prob)
+
+
+if __name__ == "__main__":
+    N, L, R, X = map(int, input().split())
+    prob = list(map(int, input().split()))
+    ck = [0] * (N)
+    cnt = 0
+    DFS(0, 0, 2147000000, -2147000000, 0)
+    print(cnt)

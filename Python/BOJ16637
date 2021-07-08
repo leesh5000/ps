@@ -1,0 +1,60 @@
+import sys
+from collections import deque
+input = sys.stdin.readline
+def operation(left, op, right):
+    left = int(left)
+    right = int(right)
+    ret = None
+    if op == '+':
+        ret = left + right
+    elif op == '-':
+        ret = left - right
+    else:
+        ret = left * right
+    return str(ret)
+def calculate():
+    dQ = deque()
+    for i in range(len(arr)):
+        if not arr[i].isdecimal():
+            if ck[i]:
+                dQ.append(operation(arr[i-1], arr[i], arr[i+1]))
+            else:
+                if i-2 >= 1 and ck[i-2]:
+                    dQ.append(arr[i])
+                else:
+                    dQ.append(arr[i-1])
+                    dQ.append(arr[i])
+        if i == len(arr)-1 and ck[i-1] != 1:
+            dQ.append(arr[i])
+    left = dQ.popleft()
+    while dQ:
+        op = dQ.popleft()
+        right = dQ.popleft()
+        left = operation(left, op, right)
+    return left
+def DFS(pos):
+    global ans
+    if pos >= n:
+        ans = max(ans, int(calculate()))
+    else:
+        if 1 <= pos-2:
+            if ck[pos-2]:
+                ck[pos] = 0
+                DFS(pos+2)
+            else:
+                ck[pos] = 1
+                DFS(pos+2)
+                ck[pos] = 0
+                DFS(pos+2)
+        else:
+            ck[pos] = 1
+            DFS(pos+2)
+            ck[pos] = 0
+            DFS(pos+2)
+if __name__ == "__main__":
+    n = int(input())
+    arr = list(map(str, input().strip()))
+    ck = [0] * n
+    ans = -2147000000
+    DFS(1)
+    print(ans)

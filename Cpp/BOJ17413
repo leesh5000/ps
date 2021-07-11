@@ -1,0 +1,75 @@
+#include <iostream>
+#include <stack>
+#include <string>
+using namespace std;
+
+int main()
+{
+	string str;
+	getline(cin, str);
+	str += '\n';
+	stack<char> stack, stack2;	// stl::stack 2개만들때 이렇게 해야함
+	int cnt = 0;
+
+	for (char ch : str)
+	{
+		if (ch == '<')
+		{
+			cnt = 1;
+			while (!stack.empty())
+			{
+				cout << stack.top();
+				stack.pop();
+			}
+			cout << ch;
+			continue;
+		}
+
+		else if (ch == '>')
+		{
+			cnt = 0;
+			while (!stack.empty())
+			{
+				stack2.push(stack.top());
+				stack.pop();
+			}
+			while (!stack2.empty())
+			{
+				cout << stack2.top();
+				stack2.pop();
+			}
+			cout << ch;
+		}
+
+		else if (ch == ' ' || ch == '\n')
+		{
+			if (cnt == 1)
+			{
+				while (!stack.empty())
+				{
+					stack2.push(stack.top());
+					stack.pop();
+				}
+
+				while (!stack2.empty())
+				{
+					cout<<stack2.top();
+					stack2.pop();
+				}
+
+				cout << ch;
+				continue;
+			}
+
+			while (!stack.empty())
+			{
+				cout << stack.top();
+				stack.pop();
+			}
+			cout << ch;
+		}
+		else
+			stack.push(ch);
+	}
+	return 0;
+}

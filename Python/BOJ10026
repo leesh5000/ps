@@ -1,0 +1,43 @@
+import sys
+sys.setrecursionlimit(10**5)
+n = int(input())
+board = [input() for _ in range(n)]
+ck = [[0] * n for _ in range(n)]
+dr = [-1, 0, 1, 0]
+dc = [0, 1, 0, -1]
+cnt1 = 0
+cnt2 = 0
+def DFS(r, c, char):
+    global ck
+    if board[r][c] not in char:
+        return
+    else:
+        ck[r][c] = 1
+        for i in range(4):
+            if 0 <= r+dr[i] < n and 0 <= c+dc[i] < n and ck[r+dr[i]][c+dc[i]] != 1:
+                DFS(r+dr[i], c+dc[i], char)
+for i in range(n):
+    for j in range(n):
+        if ck[i][j] == 0:
+            if board[i][j] == 'R' or board[i][j] == 'G':
+                cnt1 += 1
+                DFS(i, j, 'RG')
+            elif board[i][j] == 'B':
+                cnt1 += 1
+                DFS(i, j, 'B')
+for i in range(n):
+    for j in range(n):
+        ck[i][j] = 0
+for i in range(n):
+    for j in range(n):
+        if ck[i][j] == 0:
+            if board[i][j] == 'R':
+                cnt2 += 1
+                DFS(i, j, 'R')
+            elif board[i][j] == 'B':
+                cnt2 += 1
+                DFS(i, j, 'B')
+            else:
+                cnt2 += 1
+                DFS(i, j, 'G')
+print(cnt2, cnt1)
